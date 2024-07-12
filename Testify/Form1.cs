@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Testify
 {
@@ -50,6 +51,33 @@ namespace Testify
         private void label5_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            StringBuilder text = new StringBuilder();
+            text
+            .Append(txtBaseUrl.Text)
+            .Append("/")
+            .Append(txtEndpoint.Text)
+            .Append(comboHttpMethods.Text)
+            .Append(" ")
+            .Append(txtHeaders.Text)
+            .Append(" ")
+            .Append(" kraj ");
+            txtBody.Text = text.ToString();
+         
+            if (comboHttpMethods.Text == "GET")
+            {
+                txtBody.Text = "ssdfsdfsdfsdfsdfsdfsdffsfds";
+            }
+            //if (!string.IsNullOrWhiteSpace(txtName.Text) && !lstNames.Items.Contains(txtName.Text))
+            //    lstNames.Items.Add(txtName.Text);
         }
     }
 }
