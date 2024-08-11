@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Text.Json;
+using System.IO;
 
 namespace Testify
 {
@@ -64,9 +65,9 @@ namespace Testify
 
         private async void button1_Click_1(object sender, EventArgs e)
         {
-            string baseUrl = ;//txtBaseUrl.Text;
+            string baseUrl = "http://127.0.0.1:8000/";//txtBaseUrl.Text;
             string endpoint = "client/";// txtEndpoint.Text;
-            string body = txtBody.Text;
+            string body = "";//txtBody.Text;
             string headers = txtHeaders.Text;
 
             StringBuilder text = new StringBuilder();
@@ -108,7 +109,7 @@ namespace Testify
         public static HttpClient GetHttpClient(string baseUri)
         {
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://127.0.0.1:8000/");
+            //client.BaseAddress = new Uri("http://127.0.0.1:8000/");
             client.BaseAddress = new Uri(baseUri);
 
             client.Timeout = new TimeSpan(0, 2, 0);
@@ -118,6 +119,51 @@ namespace Testify
             //var defaultRequestHeaders = client.DefaultRequestHeaders;
             //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             return client;
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            StreamWriter sw = new StreamWriter(Application.StartupPath + "\\Saved\\" + txtBaseUrl.Text + ".txt");
+            sw.WriteLine(txtBaseUrl.Text);
+            sw.WriteLine(txtEndpoint.Text);
+            sw.WriteLine(comboHttpMethods.Text);
+            sw.WriteLine(txtHeaders.Text);
+            sw.WriteLine(txtBody.Text);
+            sw.WriteLine(txtResponseCode.Text);
+            sw.Close();
+        }
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            var fileContent = string.Empty;
+            var filePath = string.Empty;
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = Application.StartupPath + "\\Saved\\";
+                openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                openFileDialog.FilterIndex = 2;
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //Get the path of specified file
+                    filePath = openFileDialog.FileName;
+
+                    //Read the contents of the file into a stream
+                    var fileStream = openFileDialog.OpenFile();
+
+                    using (StreamReader sw = new StreamReader(fileStream))
+                    {
+                        txtBaseUrl.Text = sw.ReadLine();
+                        txtEndpoint.Text = sw.ReadLine();
+                        comboHttpMethods.Text = sw.ReadLine();
+                        txtHeaders.Text = sw.ReadLine();
+                        txtBody.Text = sw.ReadLine();
+                        txtResponseCode.Text = sw.ReadLine();
+                    }
+                }
+            }                 
         }
     }
 }

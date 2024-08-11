@@ -43,6 +43,8 @@
             this.lblTestName = new System.Windows.Forms.Label();
             this.txtBaseUrl = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnLoad = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -157,27 +159,49 @@
             // lblTestName
             // 
             this.lblTestName.AutoSize = true;
-            this.lblTestName.Location = new System.Drawing.Point(21, 20);
+            this.lblTestName.Location = new System.Drawing.Point(95, 23);
             this.lblTestName.Name = "lblTestName";
-            this.lblTestName.Size = new System.Drawing.Size(35, 13);
+            this.lblTestName.Size = new System.Drawing.Size(45, 13);
             this.lblTestName.TabIndex = 16;
-            this.lblTestName.Text = "label1";
+            this.lblTestName.Text = "Base url";
             // 
             // txtBaseUrl
             // 
             this.txtBaseUrl.Location = new System.Drawing.Point(155, 20);
             this.txtBaseUrl.Name = "txtBaseUrl";
-            this.txtBaseUrl.Size = new System.Drawing.Size(100, 20);
+            this.txtBaseUrl.Size = new System.Drawing.Size(248, 20);
             this.txtBaseUrl.TabIndex = 15;
             // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Controls.Add(this.button1);
+            this.flowLayoutPanel1.Controls.Add(this.btnSave);
+            this.flowLayoutPanel1.Controls.Add(this.btnLoad);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 659);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(476, 34);
             this.flowLayoutPanel1.TabIndex = 28;
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(84, 3);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 15;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // btnLoad
+            // 
+            this.btnLoad.Location = new System.Drawing.Point(165, 3);
+            this.btnLoad.Name = "btnLoad";
+            this.btnLoad.Size = new System.Drawing.Size(75, 23);
+            this.btnLoad.TabIndex = 16;
+            this.btnLoad.Text = "Load";
+            this.btnLoad.UseVisualStyleBackColor = true;
+            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
             // 
             // Form1
             // 
@@ -225,6 +249,8 @@
         private System.Windows.Forms.Label lblTestName;
         private System.Windows.Forms.TextBox txtBaseUrl;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnLoad;
     }
 }
 
