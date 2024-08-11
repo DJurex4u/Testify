@@ -123,7 +123,13 @@ namespace Testify
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            StreamWriter sw = new StreamWriter(Application.StartupPath + "\\Saved\\" + txtBaseUrl.Text + ".txt");
+            var str = txtEndpoint.Text;
+            string name = new string((from c in str
+                              where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c)
+                              select c
+                   ).ToArray());
+
+            StreamWriter sw = new StreamWriter(Application.StartupPath + "\\Saved\\" + name + ".txt");
             sw.WriteLine(txtBaseUrl.Text);
             sw.WriteLine(txtEndpoint.Text);
             sw.WriteLine(comboHttpMethods.Text);
@@ -134,8 +140,7 @@ namespace Testify
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
-        {
-            var fileContent = string.Empty;
+        {            
             var filePath = string.Empty;
 
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
