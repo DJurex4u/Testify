@@ -13,6 +13,8 @@ using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Text.Json;
 using System.IO;
+using System.Xml;
+using System.IO.Pipes;
 
 namespace Testify
 {
@@ -125,22 +127,65 @@ namespace Testify
         {
             var str = txtEndpoint.Text;
             string name = new string((from c in str
-                              where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c)
-                              select c
+                                      where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c)
+                                      select c
                    ).ToArray());
 
-            StreamWriter sw = new StreamWriter(Application.StartupPath + "\\Saved\\" + name + ".txt");
-            sw.WriteLine(txtBaseUrl.Text);
-            sw.WriteLine(txtEndpoint.Text);
-            sw.WriteLine(comboHttpMethods.Text);
-            sw.WriteLine(txtHeaders.Text);
-            sw.WriteLine(txtBody.Text);
-            sw.WriteLine(txtResponseCode.Text);
+            StreamWriter sw = new StreamWriter(Application.StartupPath + "\\Saved\\" + name + comboHttpMethods.Text + ".txt");
+            sw.WriteLine(txtBaseUrl.Text + "|||");
+            sw.WriteLine(txtEndpoint.Text + "|||");
+            sw.WriteLine(comboHttpMethods.Text + "|||");
+            sw.WriteLine(txtHeaders.Text + "|||");
+            sw.WriteLine(txtBody.Text + "|||");
+            sw.WriteLine(txtResponseCode.Text + "|||");
             sw.Close();
+
+            //using (XmlTextWriter textWriter = new XmlTextWriter(Application.StartupPath + "\\Saved\\" + name + ".xml", null))
+            //{
+            //    textWriter.Formatting = Formatting.Indented;
+            //    textWriter.Indentation = 4;
+            //    textWriter.
+
+            //    textWriter.WriteStartDocument();
+            //    textWriter.WriteStartElement("TestPlan");
+            //    textWriter.WriteAttributeString("DateTime", DateTime.Now.ToString());
+
+            //    textWriter.WriteElementString("BaseUrl", txtBaseUrl.Text);
+            //    textWriter.WriteElementString("Endpoint", txtEndpoint.Text);
+
+            //    var str = comboHttpMethods.Text;
+            //    string name = new string((from c in str
+            //                              where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c)
+            //                              select c
+            //           ).ToArray());
+
+            //    textWriter.WriteElementString("HttpMethod", comboHttpMethods.Text);
+
+            //    textWriter.WriteStartElement("TestPlan");
+
+            //    using (StringReader reader = new StringReader(input))
+            //    {
+            //        string line;
+            //        while ((line = reader.ReadLine()) != null)
+            //        {
+            //            // Do something with the line
+            //        }
+            //    }
+
+            //    textWriter.WriteEndElement();
+
+            //    textWriter.WriteElementString("Headers", txtHeaders.Text);
+            //    textWriter.WriteElementString("Body", txtBody.Text);
+            //    textWriter.WriteElementString("ResponseCode", txtResponseCode.Text);
+
+            //    textWriter.WriteEndElement();
+            //    textWriter.WriteEndDocument();
+            //    textWriter.Close();
+            //}
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
-        {            
+        {
             var filePath = string.Empty;
 
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
@@ -160,15 +205,24 @@ namespace Testify
 
                     using (StreamReader sw = new StreamReader(fileStream))
                     {
-                        txtBaseUrl.Text = sw.ReadLine();
-                        txtEndpoint.Text = sw.ReadLine();
-                        comboHttpMethods.Text = sw.ReadLine();
-                        txtHeaders.Text = sw.ReadLine();
-                        txtBody.Text = sw.ReadLine();
-                        txtResponseCode.Text = sw.ReadLine();
+                        string text = sw.ReadToEnd();                            
+
+                        string[] separatingStrings = { "|||\r\n", "|||" };
+                        
+                        System.Console.WriteLine($"Original text: '{text}'");
+
+                        string[] words = text.Split(separatingStrings, System.StringSplitOptions.RemoveEmptyEntries);
+                        //System.Console.WriteLine($"{words.Length} substrings in text:");
+
+                        txtBaseUrl.Text = words[0];
+                        txtEndpoint.Text = words[1];
+                        comboHttpMethods.Text = words[2];
+                        txtHeaders.Text = words[3];
+                        txtBody.Text = words[4];
+                        txtResponseCode.Text = words[5];
                     }
                 }
-            }                 
+            }
         }
     }
 }
