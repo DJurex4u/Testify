@@ -67,42 +67,47 @@ namespace Testify
 
         private async void button1_Click_1(object sender, EventArgs e)
         {
-            string baseUrl = "http://127.0.0.1:8000/";//txtBaseUrl.Text;
-            string endpoint = "client/";// txtEndpoint.Text;
-            string body = "";//txtBody.Text;
+            string baseUrl = txtBaseUrl.Text;
+            string endpoint = txtEndpoint.Text;
             string headers = txtHeaders.Text;
-
-            StringBuilder text = new StringBuilder();
-            text
-            .Append(txtBaseUrl.Text)
-            .Append("/")
-            .Append(txtEndpoint.Text)
-            .Append(comboHttpMethods.Text)
-            .Append(" ")
-            .Append(txtHeaders.Text)
-            .Append(" ")
-            .Append(" kraj ");
-            //txtBody.Text = text.ToString();
-
-
-            //if (!string.IsNullOrWhiteSpace(txtName.Text) && !lstNames.Items.Contains(txtName.Text))
-            //    lstNames.Items.Add(txtName.Text);
-
+            string body = txtBody.Text;
+            
             HttpClient client = GetHttpClient(baseUrl);
-            //HttpResponseMessage response = HttpClientExtensions.SendAsJsonAsync<Employee>(client, HttpMethod.Post, "emp/v1/emp/details/new", emp).Result;
-            //HttpContent content = new HttpContent();
 
             //StringContent content = new StringContent(JsonSerializer.Serialize(new
             //{
             //    email = "client@example.com",
             //    password = "123456"
             //}), Encoding.UTF8, "application/json");
+            
+            StringContent content = new StringContent(body, Encoding.UTF8, "application/json");
+            
+            if (comboHttpMethods.Text == "GET")
+            {
+                var result = await client.GetAsync(endpoint);
+                string resultContent = await result.Content.ReadAsStringAsync();
+                Console.WriteLine(resultContent);
+            }
 
-            StringContent content = new StringContent(body);
+            //detail: "Unsupported media type "text/plain; charset=utf-8" in request."
 
             if (comboHttpMethods.Text == "POST")
             {
                 var result = await client.PostAsync(endpoint, content);
+                string resultContent = await result.Content.ReadAsStringAsync();
+                Console.WriteLine(resultContent);
+            }
+            
+            if (comboHttpMethods.Text == "PUT")
+            {
+                var result = await client.PutAsync(endpoint, content);
+                string resultContent = await result.Content.ReadAsStringAsync();
+                Console.WriteLine(resultContent);
+            }
+            
+            if (comboHttpMethods.Text == "DELETE")
+            {
+                var result = await client.DeleteAsync(endpoint);
                 string resultContent = await result.Content.ReadAsStringAsync();
                 Console.WriteLine(resultContent);
             }
@@ -111,15 +116,13 @@ namespace Testify
         public static HttpClient GetHttpClient(string baseUri)
         {
             HttpClient client = new HttpClient();
-            //client.BaseAddress = new Uri("http://127.0.0.1:8000/");
             client.BaseAddress = new Uri(baseUri);
 
             client.Timeout = new TimeSpan(0, 2, 0);
             //client.DefaultRequestHeaders.Add("Authorization", SettingsBindableAttribute.Value.AccessToken);
-            //client.DefaultRequestHeaders.Add("Authorization", SettingsBindableAttribute.Value.AccessToken);
-
-            //var defaultRequestHeaders = client.DefaultRequestHeaders;
-            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIzNDY5MTg1LCJpYXQiOjE3MjM0Njg1ODUsImp0aSI6IjJhMWMwYWVjZTk4OTRmZjI5Mjg5ZDA5ZjBiZTI4Yzc1IiwidXNlcl9pZCI6MX0.KDTzbanHv3Fknev9cHe6BzFN26MV1ACfgdRdGEyCi1E");
+           
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));            
             return client;
         }
 
@@ -138,50 +141,7 @@ namespace Testify
             sw.WriteLine(txtHeaders.Text + "|||");
             sw.WriteLine(txtBody.Text + "|||");
             sw.WriteLine(txtResponseCode.Text + "|||");
-            sw.Close();
-
-            //using (XmlTextWriter textWriter = new XmlTextWriter(Application.StartupPath + "\\Saved\\" + name + ".xml", null))
-            //{
-            //    textWriter.Formatting = Formatting.Indented;
-            //    textWriter.Indentation = 4;
-            //    textWriter.
-
-            //    textWriter.WriteStartDocument();
-            //    textWriter.WriteStartElement("TestPlan");
-            //    textWriter.WriteAttributeString("DateTime", DateTime.Now.ToString());
-
-            //    textWriter.WriteElementString("BaseUrl", txtBaseUrl.Text);
-            //    textWriter.WriteElementString("Endpoint", txtEndpoint.Text);
-
-            //    var str = comboHttpMethods.Text;
-            //    string name = new string((from c in str
-            //                              where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c)
-            //                              select c
-            //           ).ToArray());
-
-            //    textWriter.WriteElementString("HttpMethod", comboHttpMethods.Text);
-
-            //    textWriter.WriteStartElement("TestPlan");
-
-            //    using (StringReader reader = new StringReader(input))
-            //    {
-            //        string line;
-            //        while ((line = reader.ReadLine()) != null)
-            //        {
-            //            // Do something with the line
-            //        }
-            //    }
-
-            //    textWriter.WriteEndElement();
-
-            //    textWriter.WriteElementString("Headers", txtHeaders.Text);
-            //    textWriter.WriteElementString("Body", txtBody.Text);
-            //    textWriter.WriteElementString("ResponseCode", txtResponseCode.Text);
-
-            //    textWriter.WriteEndElement();
-            //    textWriter.WriteEndDocument();
-            //    textWriter.Close();
-            //}
+            sw.Close();           
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
@@ -211,7 +171,7 @@ namespace Testify
                         
                         System.Console.WriteLine($"Original text: '{text}'");
 
-                        string[] words = text.Split(separatingStrings, System.StringSplitOptions.RemoveEmptyEntries);
+                        string[] words = text.Split(separatingStrings, System.StringSplitOptions.None);
                         //System.Console.WriteLine($"{words.Length} substrings in text:");
 
                         txtBaseUrl.Text = words[0];
