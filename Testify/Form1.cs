@@ -77,12 +77,6 @@ namespace Testify
             string body = txtBody.Text;
             
             HttpClient client = GetHttpClient(baseUrl);
-
-            //StringContent content = new StringContent(JsonSerializer.Serialize(new
-            //{
-            //    email = "client@example.com",
-            //    password = "123456"
-            //}), Encoding.UTF8, "application/json");
             
             StringContent content = new StringContent(body, Encoding.UTF8, "application/json");
             
@@ -134,8 +128,7 @@ namespace Testify
                     client.DefaultRequestHeaders.Add("Authorization", text);
                     Console.WriteLine(text);
                 }
-            }
-            //client.DefaultRequestHeaders.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIzNDY5MTg1LCJpYXQiOjE3MjM0Njg1ODUsImp0aSI6IjJhMWMwYWVjZTk4OTRmZjI5Mjg5ZDA5ZjBiZTI4Yzc1IiwidXNlcl9pZCI6MX0.KDTzbanHv3Fknev9cHe6BzFN26MV1ACfgdRdGEyCi1E");
+            }            
            
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));            
             return client;
