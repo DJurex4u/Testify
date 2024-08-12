@@ -45,6 +45,7 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnLoad = new System.Windows.Forms.Button();
+            this.chkAuthorisationSettings = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,7 +61,7 @@
             // 
             // txtResponseCode
             // 
-            this.txtResponseCode.Location = new System.Drawing.Point(177, 520);
+            this.txtResponseCode.Location = new System.Drawing.Point(177, 537);
             this.txtResponseCode.Name = "txtResponseCode";
             this.txtResponseCode.Size = new System.Drawing.Size(100, 20);
             this.txtResponseCode.TabIndex = 27;
@@ -68,7 +69,7 @@
             // lblFirstVerification
             // 
             this.lblFirstVerification.AutoSize = true;
-            this.lblFirstVerification.Location = new System.Drawing.Point(34, 523);
+            this.lblFirstVerification.Location = new System.Drawing.Point(34, 540);
             this.lblFirstVerification.Name = "lblFirstVerification";
             this.lblFirstVerification.Size = new System.Drawing.Size(121, 13);
             this.lblFirstVerification.TabIndex = 26;
@@ -77,7 +78,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(22, 305);
+            this.label6.Location = new System.Drawing.Point(22, 322);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(51, 13);
             this.label6.TabIndex = 25;
@@ -85,7 +86,7 @@
             // 
             // txtBody
             // 
-            this.txtBody.Location = new System.Drawing.Point(34, 332);
+            this.txtBody.Location = new System.Drawing.Point(34, 349);
             this.txtBody.Multiline = true;
             this.txtBody.Name = "txtBody";
             this.txtBody.Size = new System.Drawing.Size(395, 163);
@@ -203,12 +204,24 @@
             this.btnLoad.UseVisualStyleBackColor = true;
             this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
             // 
+            // chkAuthorisationSettings
+            // 
+            this.chkAuthorisationSettings.AutoSize = true;
+            this.chkAuthorisationSettings.Location = new System.Drawing.Point(322, 300);
+            this.chkAuthorisationSettings.Name = "chkAuthorisationSettings";
+            this.chkAuthorisationSettings.Size = new System.Drawing.Size(87, 17);
+            this.chkAuthorisationSettings.TabIndex = 29;
+            this.chkAuthorisationSettings.Text = "Authorization";
+            this.chkAuthorisationSettings.UseVisualStyleBackColor = true;
+            this.chkAuthorisationSettings.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(476, 693);
+            this.Controls.Add(this.chkAuthorisationSettings);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.txtResponseCode);
             this.Controls.Add(this.lblFirstVerification);
@@ -251,6 +264,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnLoad;
+        private System.Windows.Forms.CheckBox chkAuthorisationSettings;
     }
 }
 

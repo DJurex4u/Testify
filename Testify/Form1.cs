@@ -64,6 +64,10 @@ namespace Testify
         {
 
         }
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
 
         private async void button1_Click_1(object sender, EventArgs e)
         {
@@ -113,18 +117,31 @@ namespace Testify
             }
         }
 
-        public static HttpClient GetHttpClient(string baseUri)
+        private HttpClient GetHttpClient(string baseUri)
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(baseUri);
-
             client.Timeout = new TimeSpan(0, 2, 0);
-            //client.DefaultRequestHeaders.Add("Authorization", SettingsBindableAttribute.Value.AccessToken);
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIzNDY5MTg1LCJpYXQiOjE3MjM0Njg1ODUsImp0aSI6IjJhMWMwYWVjZTk4OTRmZjI5Mjg5ZDA5ZjBiZTI4Yzc1IiwidXNlcl9pZCI6MX0.KDTzbanHv3Fknev9cHe6BzFN26MV1ACfgdRdGEyCi1E");
+
+            if (chkAuthorisationSettings.Checked)
+            {
+                var filePath = string.Empty;                
+                filePath = Application.StartupPath + "\\Saved\\Authorization.txt";
+
+                using (StreamReader sw = new StreamReader(filePath))
+                {
+                    string text = sw.ReadToEnd();
+                    client.DefaultRequestHeaders.Add("Authorization", text);
+                    Console.WriteLine(text);
+                }
+            }
+            //client.DefaultRequestHeaders.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIzNDY5MTg1LCJpYXQiOjE3MjM0Njg1ODUsImp0aSI6IjJhMWMwYWVjZTk4OTRmZjI5Mjg5ZDA5ZjBiZTI4Yzc1IiwidXNlcl9pZCI6MX0.KDTzbanHv3Fknev9cHe6BzFN26MV1ACfgdRdGEyCi1E");
            
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));            
             return client;
         }
+
+        
 
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -141,6 +158,7 @@ namespace Testify
             sw.WriteLine(txtHeaders.Text + "|||");
             sw.WriteLine(txtBody.Text + "|||");
             sw.WriteLine(txtResponseCode.Text + "|||");
+            sw.WriteLine(chkAuthorisationSettings.Checked + "|||");
             sw.Close();           
         }
 
@@ -180,9 +198,10 @@ namespace Testify
                         txtHeaders.Text = words[3];
                         txtBody.Text = words[4];
                         txtResponseCode.Text = words[5];
+                        chkAuthorisationSettings.Checked = bool.Parse(words[6]);
                     }
                 }
             }
-        }
+        }        
     }
 }
