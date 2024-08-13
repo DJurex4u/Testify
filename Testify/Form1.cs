@@ -85,9 +85,7 @@ namespace Testify
                 var result = await client.GetAsync(endpoint);
                 string resultContent = await result.Content.ReadAsStringAsync();
                 Console.WriteLine(resultContent);
-            }
-
-            //detail: "Unsupported media type "text/plain; charset=utf-8" in request."
+            }            
 
             if (comboHttpMethods.Text == "POST")
             {
