@@ -79,32 +79,34 @@ namespace Testify
             HttpClient client = GetHttpClient(baseUrl);
             
             StringContent content = new StringContent(body, Encoding.UTF8, "application/json");
-            
+            HttpResponseMessage result;
+            string resultContent = string.Empty;
+
             if (comboHttpMethods.Text == "GET")
             {
-                var result = await client.GetAsync(endpoint);
-                string resultContent = await result.Content.ReadAsStringAsync();
+                result = await client.GetAsync(endpoint);
+                resultContent = await result.Content.ReadAsStringAsync();
                 Console.WriteLine(resultContent);
             }            
 
             if (comboHttpMethods.Text == "POST")
             {
-                var result = await client.PostAsync(endpoint, content);
-                string resultContent = await result.Content.ReadAsStringAsync();
+                result = await client.PostAsync(endpoint, content);
+                resultContent = await result.Content.ReadAsStringAsync();
                 Console.WriteLine(resultContent);
             }
             
             if (comboHttpMethods.Text == "PUT")
             {
-                var result = await client.PutAsync(endpoint, content);
-                string resultContent = await result.Content.ReadAsStringAsync();
+                result = await client.PutAsync(endpoint, content);
+                resultContent = await result.Content.ReadAsStringAsync();
                 Console.WriteLine(resultContent);
             }
             
             if (comboHttpMethods.Text == "DELETE")
             {
-                var result = await client.DeleteAsync(endpoint);
-                string resultContent = await result.Content.ReadAsStringAsync();
+                result = await client.DeleteAsync(endpoint);
+                resultContent = await result.Content.ReadAsStringAsync();
                 Console.WriteLine(resultContent);
             }
         }
