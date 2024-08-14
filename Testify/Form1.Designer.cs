@@ -28,18 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnRun = new System.Windows.Forms.Button();
             this.txtResponseCode = new System.Windows.Forms.TextBox();
-            this.lblFirstVerification = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lblResponseCode = new System.Windows.Forms.Label();
+            this.lblAndBody = new System.Windows.Forms.Label();
             this.txtBody = new System.Windows.Forms.TextBox();
             this.txtHeaders = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblWithHeaders = new System.Windows.Forms.Label();
+            this.lblEndpoint = new System.Windows.Forms.Label();
             this.txtEndpoint = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblRequestTo = new System.Windows.Forms.Label();
             this.comboHttpMethods = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblWhenISend = new System.Windows.Forms.Label();
             this.lblTestName = new System.Windows.Forms.Label();
             this.txtBaseUrl = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -49,15 +49,15 @@
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button1
+            // btnRun
             // 
-            this.button1.Location = new System.Drawing.Point(3, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 14;
-            this.button1.Text = "Run";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.btnRun.Location = new System.Drawing.Point(3, 3);
+            this.btnRun.Name = "btnRun";
+            this.btnRun.Size = new System.Drawing.Size(75, 23);
+            this.btnRun.TabIndex = 14;
+            this.btnRun.Text = "Run";
+            this.btnRun.UseVisualStyleBackColor = true;
+            this.btnRun.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // txtResponseCode
             // 
@@ -66,23 +66,23 @@
             this.txtResponseCode.Size = new System.Drawing.Size(100, 20);
             this.txtResponseCode.TabIndex = 27;
             // 
-            // lblFirstVerification
+            // lblResponseCode
             // 
-            this.lblFirstVerification.AutoSize = true;
-            this.lblFirstVerification.Location = new System.Drawing.Point(34, 540);
-            this.lblFirstVerification.Name = "lblFirstVerification";
-            this.lblFirstVerification.Size = new System.Drawing.Size(121, 13);
-            this.lblFirstVerification.TabIndex = 26;
-            this.lblFirstVerification.Text = "I verify response code is";
+            this.lblResponseCode.AutoSize = true;
+            this.lblResponseCode.Location = new System.Drawing.Point(34, 540);
+            this.lblResponseCode.Name = "lblResponseCode";
+            this.lblResponseCode.Size = new System.Drawing.Size(121, 13);
+            this.lblResponseCode.TabIndex = 26;
+            this.lblResponseCode.Text = "I verify response code is";
             // 
-            // label6
+            // lblAndBody
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(22, 322);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(51, 13);
-            this.label6.TabIndex = 25;
-            this.label6.Text = "and body";
+            this.lblAndBody.AutoSize = true;
+            this.lblAndBody.Location = new System.Drawing.Point(22, 322);
+            this.lblAndBody.Name = "lblAndBody";
+            this.lblAndBody.Size = new System.Drawing.Size(51, 13);
+            this.lblAndBody.TabIndex = 25;
+            this.lblAndBody.Text = "and body";
             // 
             // txtBody
             // 
@@ -100,23 +100,23 @@
             this.txtHeaders.Size = new System.Drawing.Size(394, 125);
             this.txtHeaders.TabIndex = 23;
             // 
-            // label4
+            // lblWithHeaders
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(22, 141);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(67, 13);
-            this.label4.TabIndex = 22;
-            this.label4.Text = "with headers";
+            this.lblWithHeaders.AutoSize = true;
+            this.lblWithHeaders.Location = new System.Drawing.Point(22, 141);
+            this.lblWithHeaders.Name = "lblWithHeaders";
+            this.lblWithHeaders.Size = new System.Drawing.Size(67, 13);
+            this.lblWithHeaders.TabIndex = 22;
+            this.lblWithHeaders.Text = "with headers";
             // 
-            // label3
+            // lblEndpoint
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(409, 105);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(48, 13);
-            this.label3.TabIndex = 21;
-            this.label3.Text = "endpoint";
+            this.lblEndpoint.AutoSize = true;
+            this.lblEndpoint.Location = new System.Drawing.Point(409, 105);
+            this.lblEndpoint.Name = "lblEndpoint";
+            this.lblEndpoint.Size = new System.Drawing.Size(48, 13);
+            this.lblEndpoint.TabIndex = 21;
+            this.lblEndpoint.Text = "endpoint";
             // 
             // txtEndpoint
             // 
@@ -125,14 +125,14 @@
             this.txtEndpoint.Size = new System.Drawing.Size(248, 20);
             this.txtEndpoint.TabIndex = 20;
             // 
-            // label2
+            // lblRequestTo
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(95, 105);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(54, 13);
-            this.label2.TabIndex = 19;
-            this.label2.Text = "request to";
+            this.lblRequestTo.AutoSize = true;
+            this.lblRequestTo.Location = new System.Drawing.Point(95, 105);
+            this.lblRequestTo.Name = "lblRequestTo";
+            this.lblRequestTo.Size = new System.Drawing.Size(54, 13);
+            this.lblRequestTo.TabIndex = 19;
+            this.lblRequestTo.Text = "request to";
             // 
             // comboHttpMethods
             // 
@@ -148,14 +148,14 @@
             this.comboHttpMethods.Size = new System.Drawing.Size(69, 21);
             this.comboHttpMethods.TabIndex = 18;
             // 
-            // label1
+            // lblWhenISend
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 86);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(68, 13);
-            this.label1.TabIndex = 17;
-            this.label1.Text = "When I send";
+            this.lblWhenISend.AutoSize = true;
+            this.lblWhenISend.Location = new System.Drawing.Point(21, 86);
+            this.lblWhenISend.Name = "lblWhenISend";
+            this.lblWhenISend.Size = new System.Drawing.Size(68, 13);
+            this.lblWhenISend.TabIndex = 17;
+            this.lblWhenISend.Text = "When I send";
             // 
             // lblTestName
             // 
@@ -175,7 +175,7 @@
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Controls.Add(this.button1);
+            this.flowLayoutPanel1.Controls.Add(this.btnRun);
             this.flowLayoutPanel1.Controls.Add(this.btnSave);
             this.flowLayoutPanel1.Controls.Add(this.btnLoad);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -224,16 +224,16 @@
             this.Controls.Add(this.chkAuthorisationSettings);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.txtResponseCode);
-            this.Controls.Add(this.lblFirstVerification);
-            this.Controls.Add(this.label6);
+            this.Controls.Add(this.lblResponseCode);
+            this.Controls.Add(this.lblAndBody);
             this.Controls.Add(this.txtBody);
             this.Controls.Add(this.txtHeaders);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lblWithHeaders);
+            this.Controls.Add(this.lblEndpoint);
             this.Controls.Add(this.txtEndpoint);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblRequestTo);
             this.Controls.Add(this.comboHttpMethods);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblWhenISend);
             this.Controls.Add(this.lblTestName);
             this.Controls.Add(this.txtBaseUrl);
             this.Name = "Form1";
@@ -247,18 +247,18 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnRun;
         private System.Windows.Forms.TextBox txtResponseCode;
-        private System.Windows.Forms.Label lblFirstVerification;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblResponseCode;
+        private System.Windows.Forms.Label lblAndBody;
         private System.Windows.Forms.TextBox txtBody;
         private System.Windows.Forms.TextBox txtHeaders;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblWithHeaders;
+        private System.Windows.Forms.Label lblEndpoint;
         private System.Windows.Forms.TextBox txtEndpoint;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblRequestTo;
         private System.Windows.Forms.ComboBox comboHttpMethods;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblWhenISend;
         private System.Windows.Forms.Label lblTestName;
         private System.Windows.Forms.TextBox txtBaseUrl;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
