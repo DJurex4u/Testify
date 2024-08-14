@@ -75,11 +75,11 @@ namespace Testify
             string endpoint = txtEndpoint.Text;
             string headers = txtHeaders.Text;
             string body = txtBody.Text;
-            
+
             HttpClient client = GetHttpClient(baseUrl);
-            
+
             StringContent content = new StringContent(body, Encoding.UTF8, "application/json");
-            HttpResponseMessage result;
+            HttpResponseMessage result = null;
             string resultContent = string.Empty;
 
             if (comboHttpMethods.Text == "GET")
@@ -87,7 +87,7 @@ namespace Testify
                 result = await client.GetAsync(endpoint);
                 resultContent = await result.Content.ReadAsStringAsync();
                 Console.WriteLine(resultContent);
-            }            
+            }
 
             if (comboHttpMethods.Text == "POST")
             {
@@ -95,20 +95,40 @@ namespace Testify
                 resultContent = await result.Content.ReadAsStringAsync();
                 Console.WriteLine(resultContent);
             }
-            
+
             if (comboHttpMethods.Text == "PUT")
             {
                 result = await client.PutAsync(endpoint, content);
                 resultContent = await result.Content.ReadAsStringAsync();
                 Console.WriteLine(resultContent);
             }
-            
+
             if (comboHttpMethods.Text == "DELETE")
             {
                 result = await client.DeleteAsync(endpoint);
                 resultContent = await result.Content.ReadAsStringAsync();
                 Console.WriteLine(resultContent);
             }
+
+            var str = txtEndpoint.Text;
+            string name = new string((from c in str
+                                      where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c)
+                                      select c
+                   ).ToArray());
+
+            StreamWriter sw = new StreamWriter(Application.StartupPath + "\\ReportsCSV\\" + name + comboHttpMethods.Text +"_REPORT.txt");
+            sw.WriteLine(txtBaseUrl.Text + txtEndpoint.Text + ",");
+            sw.WriteLine(comboHttpMethods.Text + ",");
+            sw.WriteLine(txtHeaders.Text + ",");
+            sw.WriteLine(txtBody.Text + ",");
+            sw.WriteLine(txtResponseCode.Text + ",");
+            //sw.WriteLine(chkAuthorisationSettings.Checked);
+            sw.WriteLine();
+            sw.WriteLine("*****  Response:");
+            sw.WriteLine("Status code:" + result.StatusCode + ", " + (Int32)result.StatusCode);
+            sw.WriteLine(resultContent);           
+
+            sw.Close();
         }
 
         private HttpClient GetHttpClient(string baseUri)
@@ -119,22 +139,22 @@ namespace Testify
 
             if (chkAuthorisationSettings.Checked)
             {
-                var filePath = string.Empty;                
+                var filePath = string.Empty;
                 filePath = Application.StartupPath + "\\Saved\\Authorization.txt";
 
                 using (StreamReader sw = new StreamReader(filePath))
                 {
                     string text = sw.ReadToEnd();
-                    client.DefaultRequestHeaders.Add("Authorization", text);
+                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + text);
                     Console.WriteLine(text);
                 }
-            }            
-           
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));            
+            }
+
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             return client;
         }
 
-        
+
 
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -152,7 +172,7 @@ namespace Testify
             sw.WriteLine(txtBody.Text + "|||");
             sw.WriteLine(txtResponseCode.Text + "|||");
             sw.WriteLine(chkAuthorisationSettings.Checked + "|||");
-            sw.Close();           
+            sw.Close();
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
@@ -176,10 +196,10 @@ namespace Testify
 
                     using (StreamReader sw = new StreamReader(fileStream))
                     {
-                        string text = sw.ReadToEnd();                            
+                        string text = sw.ReadToEnd();
 
                         string[] separatingStrings = { "|||\r\n", "|||" };
-                        
+
                         System.Console.WriteLine($"Original text: '{text}'");
 
                         string[] words = text.Split(separatingStrings, System.StringSplitOptions.None);
@@ -195,6 +215,6 @@ namespace Testify
                     }
                 }
             }
-        }        
+        }
     }
 }
