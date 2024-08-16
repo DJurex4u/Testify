@@ -154,8 +154,6 @@ namespace Testify
             return client;
         }
 
-
-
         private void btnSave_Click(object sender, EventArgs e)
         {
             var str = txtEndpoint.Text;
@@ -163,17 +161,10 @@ namespace Testify
                                       where char.IsWhiteSpace(c) || char.IsLetterOrDigit(c)
                                       select c
                    ).ToArray());
+            string path = Application.StartupPath + "\\Saved\\" + name + comboHttpMethods.Text + ".txt";
 
-            StreamWriter sw = new StreamWriter(Application.StartupPath + "\\Saved\\" + name + comboHttpMethods.Text + ".txt");
-            sw.WriteLine(txtBaseUrl.Text + "|||");
-            sw.WriteLine(txtEndpoint.Text + "|||");
-            sw.WriteLine(comboHttpMethods.Text + "|||");
-            sw.WriteLine(txtHeaders.Text + "|||");
-            sw.WriteLine(txtBody.Text + "|||");
-            sw.WriteLine(txtResponseCode.Text + "|||");
-            sw.WriteLine(chkAuthorisationSettings.Checked + "|||");
-            sw.Close();
-        }
+            SaveSerializedParams(path);
+        }    
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
@@ -194,26 +185,42 @@ namespace Testify
                     //Read the contents of the file into a stream
                     var fileStream = openFileDialog.OpenFile();
 
-                    using (StreamReader sw = new StreamReader(fileStream))
-                    {
-                        string text = sw.ReadToEnd();
-
-                        string[] separatingStrings = { "|||\r\n", "|||" };
-
-                        System.Console.WriteLine($"Original text: '{text}'");
-
-                        string[] words = text.Split(separatingStrings, System.StringSplitOptions.None);
-                        //System.Console.WriteLine($"{words.Length} substrings in text:");
-
-                        txtBaseUrl.Text = words[0];
-                        txtEndpoint.Text = words[1];
-                        comboHttpMethods.Text = words[2];
-                        txtHeaders.Text = words[3];
-                        txtBody.Text = words[4];
-                        txtResponseCode.Text = words[5];
-                        chkAuthorisationSettings.Checked = bool.Parse(words[6]);
-                    }
+                    LoadDeserializedParams(fileStream);
                 }
+            }
+        }
+        private void SaveSerializedParams(string path)
+        {
+            StreamWriter sw = new StreamWriter(path);
+            sw.WriteLine(txtBaseUrl.Text + "|||");
+            sw.WriteLine(txtEndpoint.Text + "|||");
+            sw.WriteLine(comboHttpMethods.Text + "|||");
+            sw.WriteLine(txtHeaders.Text + "|||");
+            sw.WriteLine(txtBody.Text + "|||");
+            sw.WriteLine(txtResponseCode.Text + "|||");
+            sw.WriteLine(chkAuthorisationSettings.Checked + "|||");
+            sw.Close();
+        }
+        private void LoadDeserializedParams(Stream fileStream)
+        {
+            using (StreamReader sw = new StreamReader(fileStream))
+            {
+                string text = sw.ReadToEnd();
+
+                string[] separatingStrings = { "|||\r\n", "|||" };
+
+                System.Console.WriteLine($"Original text: '{text}'");
+
+                string[] words = text.Split(separatingStrings, System.StringSplitOptions.None);
+                //System.Console.WriteLine($"{words.Length} substrings in text:");
+
+                txtBaseUrl.Text = words[0];
+                txtEndpoint.Text = words[1];
+                comboHttpMethods.Text = words[2];
+                txtHeaders.Text = words[3];
+                txtBody.Text = words[4];
+                txtResponseCode.Text = words[5];
+                chkAuthorisationSettings.Checked = bool.Parse(words[6]);
             }
         }
     }
