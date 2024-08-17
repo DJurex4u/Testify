@@ -102,8 +102,19 @@ namespace Testify
                                       select c
                    ).ToArray());
 
-            GenerateTxtReport(name, result, resultContent);
-            
+            GenerateTxtReport(name, result, resultContent);            
+            GenerateCsvReport(name, result, resultContent);            
+            GenerateHtmlReport(name, result, resultContent);            
+        }
+
+        private void GenerateHtmlReport(string name, HttpResponseMessage result, string resultContent)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void GenerateCsvReport(string name, HttpResponseMessage result, string resultContent)
+        {
+            throw new NotImplementedException();
         }
 
         private void GenerateTxtReport(string name, HttpResponseMessage result, string resultContent)
