@@ -15,6 +15,7 @@ using System.Text.Json;
 using System.IO;
 using System.Xml;
 using System.IO.Pipes;
+using System.Net;
 
 namespace Testify
 {
@@ -82,32 +83,17 @@ namespace Testify
             HttpResponseMessage result = null;
             string resultContent = string.Empty;
 
-            if (comboHttpMethods.Text == "GET")
+            try
             {
-                result = await client.GetAsync(endpoint);
+                result = await SendRequestAsync(client, endpoint, comboHttpMethods.Text, content);
+                if (result == null) throw new Exception("Something went wrong. Could not get the response.");
+                
                 resultContent = await result.Content.ReadAsStringAsync();
-                Console.WriteLine(resultContent);
             }
-
-            if (comboHttpMethods.Text == "POST")
+            catch (Exception ex)
             {
-                result = await client.PostAsync(endpoint, content);
-                resultContent = await result.Content.ReadAsStringAsync();
-                Console.WriteLine(resultContent);
-            }
-
-            if (comboHttpMethods.Text == "PUT")
-            {
-                result = await client.PutAsync(endpoint, content);
-                resultContent = await result.Content.ReadAsStringAsync();
-                Console.WriteLine(resultContent);
-            }
-
-            if (comboHttpMethods.Text == "DELETE")
-            {
-                result = await client.DeleteAsync(endpoint);
-                resultContent = await result.Content.ReadAsStringAsync();
-                Console.WriteLine(resultContent);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
             var str = txtEndpoint.Text;
@@ -116,41 +102,83 @@ namespace Testify
                                       select c
                    ).ToArray());
 
-            StreamWriter sw = new StreamWriter(Application.StartupPath + "\\ReportsCSV\\" + name + comboHttpMethods.Text +"_REPORT.txt");
+            GenerateTxtReport(name, result, resultContent);
+            
+        }
+
+        private void GenerateTxtReport(string name, HttpResponseMessage result, string resultContent)
+        {
+            StreamWriter sw = new StreamWriter(Application.StartupPath + "\\ReportTxt\\" + name + comboHttpMethods.Text + "_REPORT.txt");
             sw.WriteLine(txtBaseUrl.Text + txtEndpoint.Text + ",");
             sw.WriteLine(comboHttpMethods.Text + ",");
             sw.WriteLine(txtHeaders.Text + ",");
             sw.WriteLine(txtBody.Text + ",");
             sw.WriteLine(txtResponseCode.Text + ",");
-            //sw.WriteLine(chkAuthorisationSettings.Checked);
+            
             sw.WriteLine();
             sw.WriteLine("*****  Response:");
             sw.WriteLine("Status code:" + result.StatusCode + ", " + (Int32)result.StatusCode);
-            sw.WriteLine(resultContent);           
+            sw.WriteLine(resultContent);
 
             sw.Close();
+        }
+
+        private async Task<HttpResponseMessage> SendRequestAsync(HttpClient client, string endpoint, string text, StringContent content)
+        {
+            HttpResponseMessage result = null;
+
+            if (text == "GET")
+            {
+                result = await client.GetAsync(endpoint);
+            }
+
+            if (text == "POST")
+            {
+                result = await client.PostAsync(endpoint, content);
+            }
+
+            if (text == "PUT")
+            {
+                result = await client.PutAsync(endpoint, content);
+            }
+
+            if (text == "DELETE")
+            {
+                result = await client.DeleteAsync(endpoint);
+            }
+
+            return result;
         }
 
         private HttpClient GetHttpClient(string baseUri)
         {
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(baseUri);
-            client.Timeout = new TimeSpan(0, 2, 0);
 
-            if (chkAuthorisationSettings.Checked)
-            {
-                var filePath = string.Empty;
-                filePath = Application.StartupPath + "\\Saved\\Authorization.txt";
+            try
+            {                
+                client.BaseAddress = new Uri(baseUri);
+                client.Timeout = new TimeSpan(0, 2, 0);
 
-                using (StreamReader sw = new StreamReader(filePath))
+                if (chkAuthorisationSettings.Checked)
                 {
-                    string text = sw.ReadToEnd();
-                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + text);
-                    Console.WriteLine(text);
+                    var filePath = string.Empty;
+                    filePath = Application.StartupPath + "\\Saved\\Authorization.txt";
+
+                    using (StreamReader sw = new StreamReader(filePath))
+                    {
+                        string text = sw.ReadToEnd();
+                        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + text);
+                        Console.WriteLine(text);
+                    }
                 }
+
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             return client;
         }
 
@@ -164,7 +192,7 @@ namespace Testify
             string path = Application.StartupPath + "\\Saved\\" + name + comboHttpMethods.Text + ".txt";
 
             SaveSerializedParams(path);
-        }    
+        }
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
