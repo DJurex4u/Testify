@@ -16,6 +16,7 @@ using System.IO;
 using System.Xml;
 using System.IO.Pipes;
 using System.Net;
+using NUnit.Framework;
 
 namespace Testify
 {
@@ -87,7 +88,7 @@ namespace Testify
             {
                 result = await SendRequestAsync(client, endpoint, comboHttpMethods.Text, content);
                 if (result == null) throw new Exception("Something went wrong. Could not get the response.");
-                
+
                 resultContent = await result.Content.ReadAsStringAsync();
             }
             catch (Exception ex)
@@ -95,7 +96,7 @@ namespace Testify
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-                        
+
             if (txtResponseCode.Text == ((Int32)result.StatusCode).ToString())
             {
                 lblResponseCodeCheck.Text = "✓";
@@ -107,7 +108,7 @@ namespace Testify
                 lblResponseCodeCheck.Text = "X";
                 lblResponseCodeCheck.ForeColor = Color.Red;
                 lblResponseCodeCheck.Visible = true;
-            }            
+            }
 
             var str = txtEndpoint.Text;
             string name = new string((from c in str
@@ -115,9 +116,9 @@ namespace Testify
                                       select c
                    ).ToArray());
 
-            GenerateTxtReport(name, result, resultContent);            
-            GenerateCsvReport(name, result, resultContent);            
-            GenerateHtmlReport(name, result, resultContent);            
+            GenerateTxtReport(name, result, resultContent);
+            GenerateCsvReport(name, result, resultContent);
+            GenerateHtmlReport(name, result, resultContent);
         }
 
         private void GenerateHtmlReport(string name, HttpResponseMessage result, string resultContent)
@@ -136,12 +137,32 @@ namespace Testify
             sw.WriteLine(txtHeaders.Text + ",");
             sw.WriteLine(txtBody.Text + ",");
             sw.WriteLine(txtResponseCode.Text + ",");
-            
+
             sw.WriteLine();
             sw.WriteLine("*****  Response:");
+            sw.WriteLine(result.RequestMessage);
+
+           // sw.WriteLine(await result.RequestMessage.Content.ReadAsStringAsync());
+            sw.WriteLine(result.RequestMessage.Content.ReadAsStringAsync().Result); //sc.ReadAsStringAsync().Result
+            resultContent = result.Content.ReadAsStringAsync().Result;
+
+            sw.WriteLine();
+            sw.WriteLine("*****  Response2:");
             sw.WriteLine("Status code:" + result.StatusCode + ", " + (Int32)result.StatusCode);
             sw.WriteLine(resultContent);
 
+            sw.WriteLine();
+            sw.WriteLine("*****  Test result:");
+            try
+            {
+                Assert.That(txtResponseCode.Text, Is.EqualTo(((Int32)result.StatusCode).ToString()));
+            }
+            catch (Exception ex)
+            {
+                sw.WriteLine(ex.Message);
+                Console.WriteLine("lolo");
+            }
+            
             sw.Close();
         }
 
@@ -177,7 +198,7 @@ namespace Testify
             HttpClient client = new HttpClient();
 
             try
-            {                
+            {
                 client.BaseAddress = new Uri(baseUri);
                 client.Timeout = new TimeSpan(0, 2, 0);
 
