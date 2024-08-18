@@ -156,7 +156,7 @@ namespace Testify
             
             try
             {
-                sw.WriteLine("When I send " + comboHttpMethods.Text + "request to " + txtBaseUrl.Text + txtEndpoint.Text + " endpoint");
+                sw.WriteLine("When I send " + comboHttpMethods.Text + " request to " + txtBaseUrl.Text + txtEndpoint.Text + " endpoint");
                 sw.WriteLine("With custom headers:" + txtHeaders.Text);
                 sw.WriteLine("and body: ");
                 sw.WriteLine(txtBody.Text);
