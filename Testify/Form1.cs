@@ -83,6 +83,7 @@ namespace Testify
             StringContent content = new StringContent(body, Encoding.UTF8, "application/json");
             HttpResponseMessage result = null;
             string resultContent = string.Empty;
+            string requestContent = string.Empty;
 
             try
             {
@@ -127,40 +128,46 @@ namespace Testify
 
         private void GenerateCsvReport(string name, HttpResponseMessage result, string resultContent)
         {
+            StreamWriter sw = new StreamWriter(Application.StartupPath + "\\ReportCSV\\" + name + comboHttpMethods.Text + "_REPORT.txt");
+            
+            try
+            {
+                sw.WriteLine(txtBaseUrl.Text + txtEndpoint.Text + ",");
+                sw.WriteLine(comboHttpMethods.Text + ",");
+                sw.WriteLine(txtHeaders.Text + ",");
+                sw.WriteLine(txtBody.Text);
+                sw.WriteLine(txtResponseCode.Text + ",");
+
+
+                Assert.That(txtResponseCode.Text, Is.EqualTo(((Int32)result.StatusCode).ToString()));
+                sw.WriteLine("Test passed successfully");
+            }
+            catch (Exception ex)
+            {
+                sw.WriteLine(ex.Message);
+            }
+
+            sw.Close();
         }
 
         private void GenerateTxtReport(string name, HttpResponseMessage result, string resultContent)
         {
             StreamWriter sw = new StreamWriter(Application.StartupPath + "\\ReportTxt\\" + name + comboHttpMethods.Text + "_REPORT.txt");
-            sw.WriteLine(txtBaseUrl.Text + txtEndpoint.Text + ",");
-            sw.WriteLine(comboHttpMethods.Text + ",");
-            sw.WriteLine(txtHeaders.Text + ",");
-            sw.WriteLine(txtBody.Text + ",");
-            sw.WriteLine(txtResponseCode.Text + ",");
-
-            sw.WriteLine();
-            sw.WriteLine("*****  Response:");
-            sw.WriteLine(result.RequestMessage);
-
-           // sw.WriteLine(await result.RequestMessage.Content.ReadAsStringAsync());
-            sw.WriteLine(result.RequestMessage.Content.ReadAsStringAsync().Result); //sc.ReadAsStringAsync().Result
-            resultContent = result.Content.ReadAsStringAsync().Result;
-
-            sw.WriteLine();
-            sw.WriteLine("*****  Response2:");
-            sw.WriteLine("Status code:" + result.StatusCode + ", " + (Int32)result.StatusCode);
-            sw.WriteLine(resultContent);
-
-            sw.WriteLine();
-            sw.WriteLine("*****  Test result:");
+            
             try
             {
+                sw.WriteLine("When I send " + comboHttpMethods.Text + "request to " + txtBaseUrl.Text + txtEndpoint.Text + " endpoint");
+                sw.WriteLine("With custom headers:" + txtHeaders.Text);
+                sw.WriteLine("and body: ");
+                sw.WriteLine(txtBody.Text);
+                sw.WriteLine("I verify response code is: " + txtResponseCode.Text);
+
                 Assert.That(txtResponseCode.Text, Is.EqualTo(((Int32)result.StatusCode).ToString()));
+                sw.WriteLine("Test passed successfully");
             }
             catch (Exception ex)
             {
                 sw.WriteLine(ex.Message);
-                Console.WriteLine("lolo");
             }
             
             sw.Close();
