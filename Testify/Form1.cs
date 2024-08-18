@@ -96,7 +96,7 @@ namespace Testify
                 return;
             }
                         
-            if (txtResponseCode.Text == ((Int32)result.StatusCode).ToString() )
+            if (txtResponseCode.Text == ((Int32)result.StatusCode).ToString())
             {
                 lblResponseCodeCheck.Text = "✓";
                 lblResponseCodeCheck.ForeColor = Color.Green;
