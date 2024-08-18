@@ -46,6 +46,7 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.btnLoad = new System.Windows.Forms.Button();
             this.chkAuthorisationSettings = new System.Windows.Forms.CheckBox();
+            this.lblResponseCodeCheck = new System.Windows.Forms.Label();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -215,12 +216,23 @@
             this.chkAuthorisationSettings.UseVisualStyleBackColor = true;
             this.chkAuthorisationSettings.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
+            // lblResponseCodeCheck
+            // 
+            this.lblResponseCodeCheck.AutoSize = true;
+            this.lblResponseCodeCheck.Location = new System.Drawing.Point(284, 539);
+            this.lblResponseCodeCheck.Name = "lblResponseCodeCheck";
+            this.lblResponseCodeCheck.Size = new System.Drawing.Size(15, 13);
+            this.lblResponseCodeCheck.TabIndex = 30;
+            this.lblResponseCodeCheck.Text = "✓";
+            this.lblResponseCodeCheck.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(476, 693);
+            this.Controls.Add(this.lblResponseCodeCheck);
             this.Controls.Add(this.chkAuthorisationSettings);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.txtResponseCode);
@@ -265,6 +277,7 @@
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.CheckBox chkAuthorisationSettings;
+        private System.Windows.Forms.Label lblResponseCodeCheck;
     }
 }
 

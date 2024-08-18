@@ -95,6 +95,19 @@ namespace Testify
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+                        
+            if (txtResponseCode.Text == ((Int32)result.StatusCode).ToString() )
+            {
+                lblResponseCodeCheck.Text = "✓";
+                lblResponseCodeCheck.ForeColor = Color.Green;
+                lblResponseCodeCheck.Visible = true;
+            }
+            else
+            {
+                lblResponseCodeCheck.Text = "X";
+                lblResponseCodeCheck.ForeColor = Color.Red;
+                lblResponseCodeCheck.Visible = true;
+            }            
 
             var str = txtEndpoint.Text;
             string name = new string((from c in str
@@ -109,12 +122,10 @@ namespace Testify
 
         private void GenerateHtmlReport(string name, HttpResponseMessage result, string resultContent)
         {
-            throw new NotImplementedException();
         }
 
         private void GenerateCsvReport(string name, HttpResponseMessage result, string resultContent)
         {
-            throw new NotImplementedException();
         }
 
         private void GenerateTxtReport(string name, HttpResponseMessage result, string resultContent)
