@@ -132,15 +132,17 @@ namespace Testify
             
             try
             {
+                #region ...
                 sw.WriteLine(txtBaseUrl.Text + txtEndpoint.Text + ",");
                 sw.WriteLine(comboHttpMethods.Text + ",");
                 sw.WriteLine(txtHeaders.Text + ",");
                 sw.WriteLine(txtBody.Text);
                 sw.WriteLine(txtResponseCode.Text + ",");
-
+                #endregion
 
                 Assert.That(txtResponseCode.Text, Is.EqualTo(((Int32)result.StatusCode).ToString()));
-                sw.WriteLine("Test passed successfully");
+                sw.WriteLine("Test passed successfully,");
+                sw.WriteLine(resultContent);
             }
             catch (Exception ex)
             {
@@ -161,9 +163,12 @@ namespace Testify
                 sw.WriteLine("and body: ");
                 sw.WriteLine(txtBody.Text);
                 sw.WriteLine("I verify response code is: " + txtResponseCode.Text);
-
-                Assert.That(txtResponseCode.Text, Is.EqualTo(((Int32)result.StatusCode).ToString()));
+                                
+                Assert.That(((Int32)result.StatusCode).ToString(), Is.EqualTo(txtResponseCode.Text));
                 sw.WriteLine("Test passed successfully");
+
+                sw.WriteLine("Response:");
+                sw.WriteLine(resultContent);
             }
             catch (Exception ex)
             {
